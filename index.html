@@ -2,41 +2,38 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Грамматическая игра | ОГЭ</title>
-  <!-- Подключаем шрифт с font-display: swap для быстрой загрузки -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      margin: 0;
-      padding: 20px;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Montserrat', sans-serif;
+      background: #0f0f1a;
+      color: white;
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: flex-start; /* Теперь контент сверху, не по центру — чтобы сразу видно */
-      background: #1a1a1a; /* Фиксируем фон при старте */
-      color: white;
-      line-height: 1.7;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
     }
 
-    /* Анимированный фон — добавляем после загрузки страницы */
+    /* Переливающийся фон */
     body::before {
       content: "";
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(-45deg, #ee7752, #e73c7a, #23a6d5, #23d5ab);
+      background: linear-gradient(45deg, #120b3a, #3a0b5a, #5a2b8c, #8a4ec4);
       background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
+      animation: gradient 18s ease infinite;
       z-index: -1;
-      filter: blur(5px);
-      opacity: 0.8;
+      opacity: 0.6;
     }
 
     @keyframes gradient {
@@ -45,174 +42,153 @@
       100% { background-position: 0% 50%; }
     }
 
-    .container {
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 25px;
-      border-radius: 16px;
-      width: 95%;
-      max-width: 520px; /* Уменьшено с 600 до 520px */
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
+    .game-container {
+      background: rgba(20, 20, 40, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 500px;
+      padding: 30px 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    h1 {
-      text-align: center;
-      font-size: 22px;
-      margin-bottom: 12px;
-      color: #fff;
-    }
-
-    p {
-      text-align: center;
-      font-size: 15px;
-      margin-bottom: 20px;
-      color: #ddd;
+    .progress {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 15px;
+      text-align: right;
     }
 
     .sentence {
-      font-size: 16px;
-      margin-bottom: 10px;
+      font-size: 18px;
+      margin-bottom: 25px;
+      line-height: 1.5;
       color: #fff;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 16px;
+      padding: 14px;
+      margin-bottom: 20px;
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      background-color: #f8f8f8;
-      color: #333;
+      border-radius: 12px;
+      font-size: 17px;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      text-align: center;
       outline: none;
-      transition: all 0.3s ease;
+      transition: 0.3s;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
     }
 
     input:focus {
-      transform: scale(1.01);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
-    }
-
-    .correct {
-      border: 2px solid #4CAF50 !important;
-      background-color: #e8f5e8 !important;
-      color: #2e7d32;
-    }
-
-    .incorrect {
-      border: 2px solid #f44336 !important;
-      background-color: #ffebee !important;
-      color: #c62828;
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.02);
     }
 
     button {
-      display: block;
+      padding: 14px 20px;
       width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      background-color: #4CAF50;
+      background: #7b4dff;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: bold;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 600;
       cursor: pointer;
       transition: 0.3s;
     }
 
     button:hover {
-      background-color: #45a049;
-      transform: translateY(-1px);
+      background: #6a38e6;
+      transform: translateY(-2px);
     }
 
     button:active {
-      transform: translateY(1px);
+      transform: translateY(0);
     }
 
-    .result {
-      margin-top: 20px;
-      text-align: center;
-      font-size: 17px;
-      font-weight: bold;
-      padding: 12px;
-      border-radius: 8px;
-      background-color: rgba(0, 0, 0, 0.6);
+    .result-screen {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .result-screen h2 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #bb86fc;
+    }
+
+    .emoji {
+      font-size: 30px;
+      margin: 10px 0;
     }
 
     /* Адаптация под маленькие экраны */
     @media (max-width: 480px) {
-      .container {
+      .game-container {
         padding: 20px;
-        max-width: 460px;
-      }
-      h1 {
-        font-size: 20px;
-      }
-      p {
-        font-size: 14px;
+        border-radius: 16px;
       }
       .sentence {
-        font-size: 15px;
+        font-size: 16px;
+        padding: 12px;
+        min-height: 50px;
       }
-      input {
-        padding: 10px;
-        font-size: 15px;
-      }
-      button {
+      input, button {
         font-size: 16px;
         padding: 12px;
       }
-      .result {
-        font-size: 15px;
+      .progress {
+        font-size: 13px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Грамматическая игра 🎯</h1>
-    <p>Вставьте глагол в правильной форме:</p>
+  <div class="game-container">
+    <div id="gameScreen">
+      <div class="progress" id="progress">1 из 10</div>
+      <div class="sentence" id="sentence"></div>
+      <input type="text" id="answerInput" placeholder="Введите глагол..." autocomplete="off">
+      <button id="nextBtn">Проверить и далее</button>
+    </div>
 
-    <form id="gameForm">
-      <div class="sentence">1. She usually (go) ______ to school by bus.</div>
-      <input type="text" name="q1" autocomplete="off" required>
-
-      <div class="sentence">2. They (play) ______ football yesterday afternoon.</div>
-      <input type="text" name="q2" autocomplete="off" required>
-
-      <div class="sentence">3. Look! The dog (run) ______ in the garden.</div>
-      <input type="text" name="q3" autocomplete="off" required>
-
-      <div class="sentence">4. I (never / be) ______ to London.</div>
-      <input type="text" name="q4" autocomplete="off" required>
-
-      <div class="sentence">5. We (visit) ______ our grandparents next weekend.</div>
-      <input type="text" name="q5" autocomplete="off" required>
-
-      <div class="sentence">6. He (do) ______ his homework every evening.</div>
-      <input type="text" name="q6" autocomplete="off" required>
-
-      <div class="sentence">7. When I came home, my brother (watch) ______ TV.</div>
-      <input type="text" name="q7" autocomplete="off" required>
-
-      <div class="sentence">8. They (live) ______ in this city since 2015.</div>
-      <input type="text" name="q8" autocomplete="off" required>
-
-      <div class="sentence">9. If it rains, we (stay) ______ at home.</div>
-      <input type="text" name="q9" autocomplete="off" required>
-
-      <div class="sentence">10. By 5 p.m. yesterday, she (finish) ______ her project.</div>
-      <input type="text" name="q10" autocomplete="off" required>
-
-      <button type="submit">Проверить ответы</button>
-    </form>
-
-    <div class="result" id="result"></div>
+    <div id="resultScreen" style="display: none;" class="result-screen">
+      <h2>Игра завершена! 🎉</h2>
+      <p>Правильно: <strong id="correctCount"></strong> из 10</p>
+      <div class="emoji" id="emoji"></div>
+      <p id="finalMessage"></p>
+      <button id="restartBtn" style="margin-top: 20px;">Играть снова</button>
+    </div>
   </div>
 
   <script>
-    // Готовим ответы
-    const answers = [
+    const sentences = [
+      "She usually (go) ______ to school by bus.",
+      "They (play) ______ football yesterday afternoon.",
+      "Look! The dog (run) ______ in the garden.",
+      "I (never / be) ______ to London.",
+      "We (visit) ______ our grandparents next weekend.",
+      "He (do) ______ his homework every evening.",
+      "When I came home, my brother (watch) ______ TV.",
+      "They (live) ______ in this city since 2015.",
+      "If it rains, we (stay) ______ at home.",
+      "By 5 p.m. yesterday, she (finish) ______ her project."
+    ];
+
+    const correctAnswers = [
       "goes",
       "played",
       "is running",
@@ -225,43 +201,80 @@
       "had finished"
     ];
 
-    // Ждём полной загрузки DOM
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("gameForm");
-      const resultDiv = document.getElementById("result");
+    const sentenceEl = document.getElementById("sentence");
+    const inputEl = document.getElementById("answerInput");
+    const progressEl = document.getElementById("progress");
+    const nextBtn = document.getElementById("nextBtn");
+    const gameScreen = document.getElementById("gameScreen");
+    const resultScreen = document.getElementById("resultScreen");
+    const correctCountEl = document.getElementById("correctCount");
+    const finalMessageEl = document.getElementById("finalMessage");
+    const emojiEl = document.getElementById("emoji");
+    const restartBtn = document.getElementById("restartBtn");
 
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const inputs = document.querySelectorAll("input[type='text']");
-        let correct = 0;
+    let currentIdx = 0;
+    let correctCount = 0;
 
-        inputs.forEach((input, index) => {
-          const userAnswer = input.value.trim().toLowerCase();
-          const correctAnswer = answers[index].toLowerCase();
+    // Загружаем первое предложение
+    function loadSentence() {
+      sentenceEl.textContent = sentences[currentIdx];
+      inputEl.value = "";
+      progressEl.textContent = `${currentIdx + 1} из ${sentences.length}`;
+      inputEl.focus();
+    }
 
-          input.classList.remove("correct", "incorrect");
+    // Проверка ответа
+    nextBtn.addEventListener("click", () => {
+      const userAnswer = inputEl.value.trim().toLowerCase();
+      const correctAnswer = correctAnswers[currentIdx].toLowerCase();
 
-          if (userAnswer === correctAnswer) {
-            input.classList.add("correct");
-            correct++;
-          } else {
-            input.classList.add("incorrect");
-          }
-        });
+      if (userAnswer === correctAnswer) {
+        correctCount++;
+      }
 
-        // Показываем результат
-        resultDiv.innerHTML = `Правильно: ${correct} из 10.`;
-        if (correct === 10) {
-          resultDiv.innerHTML += " 🎉 Отлично!";
-        } else if (correct >= 7) {
-          resultDiv.innerHTML += " 👍 Хорошо!";
+      currentIdx++;
+
+      if (currentIdx < sentences.length) {
+        loadSentence();
+      } else {
+        // Конец игры
+        gameScreen.style.display = "none";
+        resultScreen.style.display = "block";
+
+        correctCountEl.textContent = correctCount;
+
+        if (correctCount === 10) {
+          emojiEl.textContent = "🏆";
+          finalMessageEl.textContent = "Безупречно! Ты настоящий мастер грамматики!";
+        } else if (correctCount >= 7) {
+          emojiEl.textContent = "👏";
+          finalMessageEl.textContent = "Хорошая работа! Почти всё правильно!";
         } else {
-          resultDiv.innerHTML += " 💪 Попробуй ещё!";
+          emojiEl.textContent = "💪";
+          finalMessageEl.textContent = "Ещё немного практики — и у тебя всё получится!";
         }
+      }
+    });
 
-        // Плавная прокрутка к результату
-        resultDiv.scrollIntoView({ behavior: "smooth" });
-      });
+    // Перезапуск игры
+    restartBtn.addEventListener("click", () => {
+      currentIdx = 0;
+      correctCount = 0;
+      gameScreen.style.display = "block";
+      resultScreen.style.display = "none";
+      loadSentence();
+    });
+
+    // Ввод с клавиатуры (Enter)
+    inputEl.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        nextBtn.click();
+      }
+    });
+
+    // Автофокус при загрузке
+    window.addEventListener("DOMContentLoaded", () => {
+      loadSentence();
     });
   </script>
 </body>
